@@ -46,3 +46,21 @@ STOPWORDS = set([
 
 def remove_stopwords(tokens):
     return [t for t in tokens if t.lower() not in STOPWORDS]
+
+
+SUFFIX_MAP = {
+    'ing': '', 'tion': 'te', 'sion': 'de', 'ness': '',
+    'ment': '', 'able': '', 'ible': '', 'ful': '',
+    'less': '', 'ous': '', 'ive': '', 'ly': '',
+    'er': '', 'est': '', 'ed': '', 'es': '', 's': ''
+}
+
+def simple_stem(word):
+    for suffix, replacement in sorted(SUFFIX_MAP.items(), key=lambda x: -len(x[0])):
+        if word.endswith(suffix) and len(word) - len(suffix) >= 3:
+            return word[:-len(suffix)] + replacement
+    return word
+
+
+def stem_tokens(tokens):
+    return [simple_stem(t) for t in tokens]
