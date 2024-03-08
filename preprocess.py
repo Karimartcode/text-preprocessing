@@ -28,3 +28,21 @@ def remove_numbers(tokens):
 
 def remove_whitespace(text):
     return re.sub(r'\s+', ' ', text).strip()
+
+
+STOPWORDS = set([
+    'the', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+    'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
+    'should', 'may', 'might', 'can', 'shall', 'to', 'of', 'in', 'for',
+    'on', 'with', 'at', 'by', 'from', 'as', 'into', 'through', 'during',
+    'before', 'after', 'and', 'but', 'or', 'nor', 'not', 'so', 'yet',
+    'both', 'either', 'neither', 'each', 'every', 'all', 'any', 'few',
+    'more', 'most', 'other', 'some', 'such', 'no', 'only', 'own', 'same',
+    'than', 'too', 'very', 'just', 'because', 'if', 'when', 'where',
+    'how', 'what', 'which', 'who', 'whom', 'this', 'that', 'these',
+    'those', 'i', 'me', 'my', 'we', 'our', 'you', 'your', 'he', 'him',
+    'his', 'she', 'her', 'it', 'its', 'they', 'them', 'their',
+])
+
+def remove_stopwords(tokens):
+    return [t for t in tokens if t.lower() not in STOPWORDS]
