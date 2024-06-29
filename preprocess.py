@@ -64,3 +64,7 @@ def simple_stem(word):
 
 def stem_tokens(tokens):
     return [simple_stem(t) for t in tokens]
+
+
+def ngrams(tokens, n):
+    return [tuple(tokens[i:i+n]) for i in range(len(tokens) - n + 1)]
