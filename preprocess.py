@@ -68,3 +68,18 @@ def stem_tokens(tokens):
 
 def ngrams(tokens, n):
     return [tuple(tokens[i:i+n]) for i in range(len(tokens) - n + 1)]
+
+
+from collections import Counter
+
+def word_frequency(tokens):
+    return Counter(tokens)
+
+
+def build_vocabulary(texts):
+    vocab = set()
+    for text in texts:
+        tokens = tokenize_words(text.lower())
+        tokens = remove_punctuation(tokens)
+        vocab.update(tokens)
+    return sorted(vocab)
