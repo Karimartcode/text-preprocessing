@@ -83,3 +83,34 @@ def build_vocabulary(texts):
         tokens = remove_punctuation(tokens)
         vocab.update(tokens)
     return sorted(vocab)
+
+
+import numpy as np
+
+
+def compute_tf(tokens):
+    freq = word_frequency(tokens)
+    total = len(tokens)
+    return {word: count / total for word, count in freq.items()}
+
+
+def compute_idf(documents):
+    n = len(documents)
+    idf = {}
+    all_words = set()
+    for doc in documents:
+        all_words.update(set(doc))
+    for word in all_words:
+        df = sum(1 for doc in documents if word in set(doc))
+        idf[word] = np.log(n / (1 + df))
+    return idf
+
+
+def compute_tfidf(documents):
+    idf = compute_idf(documents)
+    tfidf_docs = []
+    for doc in documents:
+        tf = compute_tf(doc)
+        tfidf = {word: tf_val * idf.get(word, 0) for word, tf_val in tf.items()}
+        tfidf_docs.append(tfidf)
+    return tfidf_docs
