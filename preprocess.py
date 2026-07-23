@@ -114,3 +114,27 @@ def compute_tfidf(documents):
         tfidf = {word: tf_val * idf.get(word, 0) for word, tf_val in tf.items()}
         tfidf_docs.append(tfidf)
     return tfidf_docs
+
+
+def preprocess_pipeline(text, steps=None):
+    if steps is None:
+        steps = ['lowercase', 'tokenize', 'punctuation', 'stopwords', 'stem']
+    tokens = None
+    for step in steps:
+        if step == 'lowercase':
+            text = text.lower()
+        elif step == 'tokenize':
+            tokens = tokenize_words(text)
+        elif step == 'punctuation':
+            tokens = remove_punctuation(tokens or tokenize_words(text))
+        elif step == 'numbers':
+            tokens = remove_numbers(tokens or tokenize_words(text))
+        elif step == 'stopwords':
+            tokens = remove_stopwords(tokens or tokenize_words(text))
+        elif step == 'stem':
+            tokens = stem_tokens(tokens or tokenize_words(text))
+    return tokens or tokenize_words(text)
+
+
+def batch_preprocess(texts, steps=None):
+    return [preprocess_pipeline(t, steps) for t in texts]
